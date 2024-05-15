@@ -30,9 +30,9 @@ async def echo(websocket, path):
     try:
         async for message in websocket:
             image_bytes = message
-            await process_frame(image_bytes)
-            print(f"Received bytes length: {len(image_bytes)}")
-            print(f"Sample bytes: ${image_bytes[:20]}")
+            # await process_frame(image_bytes)
+            # print(f"Received bytes length: {len(image_bytes)}")
+            # print(f"Sample bytes: ${image_bytes[:20]}")
             # print(f"Received message: {message}")
             await websocket.send(f"Received image bytes of length ${len(image_bytes)}")
     except websockets.ConnectionClosed as e:
