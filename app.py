@@ -169,7 +169,7 @@ async def echo(websocket, path):
                 elif label == 2:
                     label_str = "Fake"
                 
-                jsonString = json.dumps({'label' : f'{label_str}', 'confidence' : f"{"{:.{}f}".format(confidence * 100, 2)}"})
+                jsonString = json.dumps({'label' : f'{label_str}', 'confidence' : "{:.{}f}".format(confidence * 100, 2)})
                 await websocket.send(jsonString)
                 # cv2.imshow("img", img)
                 # cv2.waitKey(10)
