@@ -159,15 +159,23 @@ async def echo(websocket, path):
                 v_bytes = client_data[client_id]['parts'][3]
                 print("Processing the image")
                 img = YUVtoRGBO(y_bytes, u_bytes, v_bytes, width, height)
-                (label, confidence, bbox) = tester.test(img)
+                test_result = tester.test(img)
+
                 label_str = None
-                if label == 1:
-                    label_str = "Real"
-                elif label == 2:
-                    label_str = "Fake"
-                
-                jsonString = json.dumps({'label' : f'{label_str}', 'confidence' : "{:.{}f}".format(confidence * 100, 2)})
-                await websocket.send(jsonString)
+                if test_result is None:
+                    jsonString = json.dumps({'label' : "No Face", 'confidence' :"0"})
+                    await websocket.send(jsonString)
+                else:
+                    (label, confidence, bbox) = test_result
+
+                    if label == 1:
+                        label_str = "Real"
+                    elif label == 2:
+                        label_str = "Fake"
+                    
+                    jsonString = json.dumps({'label' : f'{label_str}', 'confidence' : "{:.{}f}".format(confidence * 100, 2)})
+                    await websocket.send(jsonString)
+
                 del client_data[client_id]
 
                 # cv2.imshow("img", img)

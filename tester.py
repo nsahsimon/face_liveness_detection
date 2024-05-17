@@ -87,6 +87,10 @@ def test(image, model_dir="./resources/anti_spoof_models", device_id=0):
     if result is False:
         return
     image_bbox = model_test.get_bbox(image)
+    
+    if image_bbox is None:
+        return None
+
     prediction = np.zeros((1, 3))
     test_speed = 0
     # sum the prediction from single model's result
